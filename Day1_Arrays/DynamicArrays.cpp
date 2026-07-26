@@ -1,17 +1,25 @@
+/*
+ * Day 1 - Arrays: Basic Operations
+ * -----------------------------------------
+ * Covers: traversal, insertion, deletion, linear search,
+ * binary search, reversal, max/min, and dynamic array (vector) demo.
+ *
+ * Time/Space complexity noted above each function.
+ */
+
 #include <iostream>
 #include <vector>
 using namespace std;
 
-// ---------- STATIC ARRAY OPERATIONS ----------
-
+// Traversal - O(n) time, O(1) space
 void traverse(int arr[], int n) {
     for (int i = 0; i < n; i++)
         cout << arr[i] << " ";
     cout << endl;
 }
 
-// Insert 'val' at position 'pos' (0-indexed), array has current size 'n'
-// Assumes arr has extra capacity
+// Insert 'val' at position 'pos' (0-indexed). Assumes arr has extra capacity.
+// Time: O(n) worst case (shifting elements), O(1) best case (insert at end)
 void insertAt(int arr[], int &n, int pos, int val) {
     if (pos < 0 || pos > n) {
         cout << "Invalid position\n";
@@ -25,6 +33,7 @@ void insertAt(int arr[], int &n, int pos, int val) {
 }
 
 // Delete element at position 'pos'
+// Time: O(n) worst case, O(1) if deleting last element
 void deleteAt(int arr[], int &n, int pos) {
     if (pos < 0 || pos >= n) {
         cout << "Invalid position\n";
@@ -36,18 +45,18 @@ void deleteAt(int arr[], int &n, int pos) {
     n--;
 }
 
-// Linear search - O(n)
+// Linear search - O(n) time, O(1) space
 int linearSearch(int arr[], int n, int key) {
     for (int i = 0; i < n; i++)
         if (arr[i] == key) return i;
     return -1;
 }
 
-// Binary search - O(log n), array must be sorted
+// Binary search - O(log n) time, O(1) space. Array must be SORTED.
 int binarySearch(int arr[], int n, int key) {
     int low = 0, high = n - 1;
     while (low <= high) {
-        int mid = low + (high - low) / 2; // avoids overflow
+        int mid = low + (high - low) / 2; // avoids overflow vs (low+high)/2
         if (arr[mid] == key) return mid;
         else if (arr[mid] < key) low = mid + 1;
         else high = mid - 1;
@@ -55,7 +64,7 @@ int binarySearch(int arr[], int n, int key) {
     return -1;
 }
 
-// Reverse an array in place - O(n) time, O(1) space
+// Reverse array in place - O(n) time, O(1) space
 void reverseArray(int arr[], int n) {
     int start = 0, end = n - 1;
     while (start < end) {
@@ -65,7 +74,14 @@ void reverseArray(int arr[], int n) {
     }
 }
 
-// Find max and min in one pass - O(n)
+// Recursive reverse - O(n) time, O(n) space (call stack)
+void reverseRecursive(int arr[], int start, int end) {
+    if (start >= end) return;
+    swap(arr[start], arr[end]);
+    reverseRecursive(arr, start + 1, end - 1);
+}
+
+// Find max and min in a single pass - O(n) time, O(1) space
 void findMaxMin(int arr[], int n, int &maxVal, int &minVal) {
     maxVal = arr[0];
     minVal = arr[0];
@@ -102,9 +118,9 @@ int main() {
 
     // Dynamic array (vector) demo
     vector<int> v = {3, 1, 4, 1, 5};
-    v.push_back(9);       // O(1) amortized
-    v.insert(v.begin() + 1, 100); // O(n)
-    v.erase(v.begin());   // O(n)
+    v.push_back(9);                  // O(1) amortized
+    v.insert(v.begin() + 1, 100);    // O(n)
+    v.erase(v.begin());              // O(n)
     cout << "Vector: ";
     for (int x : v) cout << x << " ";
     cout << endl;
